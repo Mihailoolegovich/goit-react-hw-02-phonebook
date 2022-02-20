@@ -1,25 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { nanoid } from 'nanoid';
+import './ContactList.css';
 
-class ContactList extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
-  render() {
-    return (
-      <ul>
-        {this.props.contacts.map(contact => (
-          <li key={nanoid()}>
-            <p>
-              {contact.name}: <span>{contact.number}</span>
-            </p>
-            <button type="button">Delete</button>
-          </li>
-        ))}
-      </ul>
-    );
-  }
-}
+const ContactList = ({ contacts, onDeleteContact }) => (
+  <ul>
+    {contacts.map(({ id, name, number }) => (
+      <li key={nanoid()} className="contacts__li" id={id}>
+        <div className="contacts__data">
+          <p className="contacts__name">{name}: </p>
+          <p className="contacts__number">{number}</p>
+        </div>
+        <button
+          className="contacts__btn"
+          type="button"
+          onClick={() => {
+            onDeleteContact(id);
+          }}
+        >
+          Delete
+        </button>
+      </li>
+    ))}
+  </ul>
+);
 
 export default ContactList;

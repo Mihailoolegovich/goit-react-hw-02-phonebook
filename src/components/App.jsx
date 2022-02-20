@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import contacts from './data/contacts.json';
 
+import Section from './Section';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
@@ -9,20 +10,51 @@ import Filter from './Filter';
 class App extends Component {
   state = {
     contacts: contacts,
-
     filter: '',
   };
 
-  render() {
-    return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm />
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contac => contac.id !== contactId),
+    }));
+  };
 
-        <h1>Contacts</h1>
-        <Filter />
-        <ContactList contacts={this.state.contacts} />
-      </div>
+  formSubmitHandler = data => {
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, data],
+    }));
+  };
+
+  filterForm = e => {
+    const { name, value } = e.currentTarget;
+    this.setState({ [name]: value });
+    this.findContact();
+  };
+
+  findContact = () => {
+    // console.log(
+    //   this.state.contacts.filter(contact =>
+    //     contact.name.includce(this.state.filter)
+    //   )
+    // );
+  };
+
+  render() {
+    this.findContact();
+    return (
+      <>
+        <Section title="Phonebook">
+          <ContactForm onSubmit={this.formSubmitHandler} />
+        </Section>
+
+        <Section title="Contacts">
+          <Filter value={this.state.filter} onChange={this.filterForm} />
+          <ContactList
+            contacts={this.state.contacts}
+            onDeleteContact={this.deleteContact}
+          />
+        </Section>
+      </>
     );
   }
 }
