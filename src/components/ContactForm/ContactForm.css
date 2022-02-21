@@ -1,7 +1,6 @@
 .container--form {
   display: flex;
   flex-direction: column;
-  /* width: 50%; */
   margin-bottom: 30px;
 }
 
@@ -14,16 +13,13 @@
 }
 
 .form__input {
-  /* text-align: center; */
   padding: 3px 20px 3px 20px;
   border-radius: 7px;
   border: 1px solid #796581fc;
-  /* width: 200px; */
 }
 
 .form__btn {
   border: none;
-  /* border: 1px solid white; */
   width: 100px;
   height: 35px;
   background-color: #95785a;

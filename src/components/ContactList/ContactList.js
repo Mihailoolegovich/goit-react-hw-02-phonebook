@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import './ContactList.css';
 
@@ -23,5 +24,10 @@ const ContactList = ({ contacts, onDeleteContact }) => (
     ))}
   </ul>
 );
+
+ContactList.propTypes = {
+  contacts: propTypes.array,
+  onDeleteContact: propTypes.func,
+};
 
 export default ContactList;

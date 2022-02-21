@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-
 import contacts from './data/contacts.json';
-
 import Section from './Section';
 import ContactForm from './ContactForm';
-import ContactList from './ContactList';
 import Filter from './Filter';
+import ContactList from './ContactList';
 
 class App extends Component {
   state = {
@@ -15,32 +13,34 @@ class App extends Component {
 
   deleteContact = contactId => {
     this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contac => contac.id !== contactId),
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
 
   formSubmitHandler = data => {
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, data],
-    }));
+    this.state.contacts.find(contact => contact.name.includes(data.name))
+      ? alert(`${data.name} is already in contacts`)
+      : this.setState(prevState => ({
+          contacts: [data, ...prevState.contacts],
+        }));
   };
 
   filterForm = e => {
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
-    this.findContact();
+    this.setState({ filter: e.currentTarget.value });
   };
 
   findContact = () => {
-    // console.log(
-    //   this.state.contacts.filter(contact =>
-    //     contact.name.includce(this.state.filter)
-    //   )
-    // );
+    const { filter, contacts } = this.state;
+    const filterLowerCase = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filterLowerCase)
+    );
   };
 
   render() {
-    this.findContact();
+    const filterData = this.findContact();
+
     return (
       <>
         <Section title="Phonebook">
@@ -50,7 +50,7 @@ class App extends Component {
         <Section title="Contacts">
           <Filter value={this.state.filter} onChange={this.filterForm} />
           <ContactList
-            contacts={this.state.contacts}
+            contacts={filterData}
             onDeleteContact={this.deleteContact}
           />
         </Section>

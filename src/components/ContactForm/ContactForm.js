@@ -1,34 +1,29 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
+import './ContactForm.css';
 
-import './ContactFotm.css';
+const INITIAL_STATE = { name: '', number: '' };
 
 class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+  state = INITIAL_STATE;
 
-  handleChenge = e => {
+  handleChange = e => {
     const { name, value } = e.currentTarget;
-
     this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-
     const { name, number } = this.state;
+
     const data = { id: nanoid(), name: name, number: number };
-
-    console.log('ContactForm ~ data', data);
     this.props.onSubmit(data);
-    this.reset();
+    this.setState(INITIAL_STATE);
   };
 
-  reset = () => {
-    this.setState({ name: '', number: '' });
-  };
+  // reset = () => {
+  //   this.setState(INITIAL_STATE);
+  // };
 
   render() {
     const { name, number } = this.state;
@@ -37,9 +32,8 @@ class ContactForm extends Component {
       <form className="container--form" onSubmit={this.handleSubmit}>
         <label className="form__label">
           Name
-          {/* <p>Name</p> */}
           <input
-            onChange={this.handleChenge}
+            onChange={this.handleChange}
             className="form__input"
             type="text"
             name="name"
@@ -52,9 +46,8 @@ class ContactForm extends Component {
         </label>
         <label className="form__label">
           Number
-          {/* <p>Number</p> */}
           <input
-            onChange={this.handleChenge}
+            onChange={this.handleChange}
             className="form__input"
             type="tel"
             name="number"
